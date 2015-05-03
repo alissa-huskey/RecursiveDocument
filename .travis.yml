@@ -1,6 +1,20 @@
 language: python
 python:
-  - "2.7"
-  - "3.3"
+- 2.7
+- 3.3
+- 3.4
+install:
+- pip install sphinx coveralls
 script:
-  - python setup.py test
+- coverage run "--include=RecursiveDocument/*" setup.py test
+after_success:
+- coveralls
+deploy:
+  provider: pypi
+  user: jacquev6
+  password:
+    secure: QF3LolLjF9dCy3Z2BoU4iDximaCh/Uwevbch8j6U8hbmNVjn1gRLOzqOFqxR0fH+OQh4rrpfWRA2lZWaf81nSQ6oIVgEdlEyU+mDM/s58L2GWyRw1hT/2S2qYXvY4+FFBT6b1cHcuKw6QcAlBjsEeoqm1s+QzwqcMerOU5vqjb0=
+  on:
+    tags: true
+    repo: jacquev6/RecursiveDocument
+    python: 2.7

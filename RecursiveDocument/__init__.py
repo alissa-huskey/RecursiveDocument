@@ -1,32 +1,15 @@
-# -*- coding: utf-8 -*-
+# coding: utf8
 
-# Copyright 2013 Vincent Jacques
-# vincent@vincent-jacques.net
-
-# This file is part of RecursiveDocument. http://jacquev6.github.com/RecursiveDocument
-
-# RecursiveDocument is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License
-# as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-
-# RecursiveDocument is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
-
-# You should have received a copy of the GNU Lesser General Public License along with RecursiveDocument.  If not, see <http://www.gnu.org/licenses/>.
+# Copyright 2013-2015 Vincent Jacques <vincent@vincent-jacques.net>
 
 """
-RecursiveDocument
-=================
-
-Introduction
-------------
-
 RecursiveDocument formats, in a console-friendly and human-readable way, a document specified through its structure (sections, sub-sections, paragraphs, etc.).
 
 It is especially well suited for printing help messages for command-line executables.
 
 For example::
 
-    from recdoc import Document, Section, Paragraph
+    from RecursiveDocument import Document, Section, Paragraph
 
     doc = Document()
     section = Section("Section title")
@@ -45,7 +28,7 @@ When the contents of the document are large, they are wrapped to 70 caracters.
 
 Because ``add`` returns ``self``, RecursiveDocument allows chaining of calls to ``add``::
 
-    from recdoc import Document, Section, Paragraph
+    from RecursiveDocument import Document, Section, Paragraph
 
     print Document().add(
         Section("Section title")
@@ -59,22 +42,6 @@ will produce::
       Some text
 
       Some other text
-
-Installation
-------------
-
-RecursiveDocument is on `the Python Package Index <https://pypi.python.org/pypi/RecursiveDocument>`_,
-so ``easy_install RecursiveDocument`` or ``pip install RecursiveDocument`` should be enough.
-You can also `clone it on Github <https://github.com/jacquev6/RecursiveDocument>`_.
-
-Licensing
----------
-
-RecursiveDocument is distributed under the GNU Lesser General Public Licence.
-See files COPYING and COPYING.LESSER, as requested by `GNU <http://www.gnu.org/licenses/gpl-howto.html>`_.
-
-Reference
----------
 """
 
 import textwrap
@@ -104,7 +71,7 @@ class Container:
 
     def add(self, content):
         """
-        Appends content to this object. ``content`` can be ``None``, or any class from :mod:`recdoc` but :class:`Document`.
+        Appends content to this object. ``content`` can be ``None``, or any class from :mod:`RecursiveDocument` but :class:`Document`.
 
         Returns self to allow chaining.
         """
@@ -162,7 +129,7 @@ class DefinitionList:
 
     Example::
 
-        from recdoc import Document, Section, DefinitionList
+        from RecursiveDocument import Document, Section, DefinitionList
 
         doc = Document()
         section = Section("Section title")
