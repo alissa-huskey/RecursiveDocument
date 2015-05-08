@@ -27,8 +27,7 @@ class IndentationTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 First section
                   Some text"""
             )
@@ -42,8 +41,7 @@ class IndentationTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 First section
                   Some text
 
@@ -70,8 +68,7 @@ class IndentationTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 Section A
                   Text A.1
 
@@ -104,8 +101,7 @@ class IndentationTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 Some text
 
                 Section title
@@ -122,8 +118,7 @@ class IndentationTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 Section title
                   Section text
 
@@ -139,8 +134,7 @@ class IndentationTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 Empty section title
 
                 Some text"""
@@ -159,8 +153,7 @@ class IndentationTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 Section A
                   Section A.1
                     Text A.1.a
@@ -207,8 +200,7 @@ class IndentationTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 P1
 
                 P2
@@ -233,8 +225,7 @@ class IndentationTestCase(unittest.TestCase):
         self.doc.add(Section("Title"))
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 Title"""
             )
         )

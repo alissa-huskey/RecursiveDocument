@@ -3,88 +3,144 @@
 # Copyright 2013-2015 Vincent Jacques <vincent@vincent-jacques.net>
 
 """
+RecursiveDocument does absolutely nothing fancy (Italic? Bold? Underline? No!).
+It just prints your document on 70 columns and it does it well.
+It was written for help messages in `InteractiveCommandLine <http://pythonhosted.org/InteractiveCommandLine/>`__
+and released separately because, well, you know, reusability.
+
+Introduction
+------------
+
 Import:
 
-    >>> from RecursiveDocument import Document, Section, Paragraph, DefinitionList
+    >>> from RecursiveDocument import Document, Section
+    >>> from RecursiveDocument import Paragraph, DefinitionList
 
 Create a simple document and format it:
 
     >>> doc = Document()
-    >>> section = Section("Section title")
-    >>> doc.add(section)
+    >>> doc.add("Some text")
     <RecursiveDocument.Document ...>
-    >>> section.add(Paragraph("Some text"))
-    <RecursiveDocument.Section ...>
+    >>> doc.add("Some other text")
+    <RecursiveDocument.Document ...>
     >>> print doc.format()
-    Section title
-      Some text
+    Some text
+    <BLANKLINE>
+    Some other text
 
-Sections and sub-sections are indented by 2 spaces to improve readability.
+Add
+---
 
-When the contents of the document are large, they are wrapped to 70 caracters.
+Because ``add`` returns ``self``, RecursiveDocument allows chaining of calls to ``add``:
 
-Because ``add`` returns ``self``, RecursiveDocument allows chaining of calls to ``add``::
+    >>> print Document().add("Some text").add("Some other text").format()
+    Some text
+    <BLANKLINE>
+    Some other text
 
-    >>> print Document().add(
-    ...   Section("Section title")
-    ...   .add(Paragraph("Some text"))
-    ...   .add(Paragraph("Some other text"))
-    ... ).format()
-    Section title
-      Some text
+``add`` is also variadic so you can add several things at once:
 
-      Some other text
+    >>> print Document().add("Some text", "Some other text").format()
+    Some text
+    <BLANKLINE>
+    Some other text
 
-Here is a more complex example:
+Wrapping
+--------
+
+When the document is wide, it is wrapped to 70 caracters:
 
     >>> lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque facilisis nisi vel nibh luctus sit amet semper tellus gravida."
 
-    >>> doc = (Document()
-    ...   .add(Paragraph(lorem))
-    ...   .add(Paragraph(lorem))
-    ...   .add(Section("Lorem is good")
-    ...     .add(Paragraph(lorem))
-    ...     .add(DefinitionList()
-    ...       .add("foo", Paragraph("bar"))
-    ...       .add("baz", Paragraph(lorem))
+    >>> print Document().add(
+    ...   lorem + " " + lorem,
+    ...   lorem + " " + lorem,
+    ... ).format()
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+    facilisis nisi vel nibh luctus sit amet semper tellus gravida. Lorem
+    ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+    facilisis nisi vel nibh luctus sit amet semper tellus gravida.
+    <BLANKLINE>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+    facilisis nisi vel nibh luctus sit amet semper tellus gravida. Lorem
+    ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+    facilisis nisi vel nibh luctus sit amet semper tellus gravida.
+
+Sections
+--------
+
+Sections and sub-sections can be nested.
+They are indented by 2 spaces to improve readability:
+
+    >>> print Document().add(
+    ...   Section("First section").add(
+    ...     "Some text.",
+    ...     Section("Sub-section").add("This is so deep."),
+    ...     "This is not that deep.",
+    ...   ),
+    ...   Section("Second section").add(
+    ...     "Some other text.",
+    ...   ),
+    ... ).format()
+    First section
+      Some text.
+    <BLANKLINE>
+      Sub-section
+        This is so deep.
+    <BLANKLINE>
+      This is not that deep.
+    <BLANKLINE>
+    Second section
+      Some other text.
+
+Paragraphs
+----------
+
+When you add a string, it's like adding a :class:`Paragraph` containing this string:
+
+    >>> print Document().add(
+    ...   Paragraph("Some text"),
+    ...   Paragraph("Some other text"),
+    ... ).format()
+    Some text
+    <BLANKLINE>
+    Some other text
+
+You can also create a :class:`Paragraph` from several strings:
+
+    >>> print Document().add(
+    ...   Paragraph("Some text.", "Some other text.")
+    ... ).format()
+    Some text. Some other text.
+
+Definition lists
+----------------
+
+    >>> print Document().add(
+    ...   DefinitionList()
+    ...     .add("term 1", "definition 1")
+    ...     .add(
+    ...       "term 2",
+    ...       Section("definition 2 is a section")
+    ...         .add("With some text. Can you believe it?")
+    ...         .add("Oh, and next term has no definition.")
     ...     )
-    ...     .add(Paragraph(lorem))
-    ...   )
-    ...   .add(Section("Lorem is life")
-    ...     .add(Paragraph(lorem))
-    ...     .add(Section("Lorem always").add(Paragraph(lorem)))
-    ...   )
-    ... )
-    >>> print doc.format()
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-    facilisis nisi vel nibh luctus sit amet semper tellus gravida.
+    ...     .add("term 3", None)
+    ...     .add("longest term", "The longest term decides on which column definitions start.")
+    ...     .add("very very very very long term", "Except that this term is so long that we couldn't put it's definition on the same line. So we didn't shrink other terms' definitions.")
+    ... ).format()
+    term 1        definition 1
+    term 2        definition 2 is a section
+                    With some text. Can you believe it?
     <BLANKLINE>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-    facilisis nisi vel nibh luctus sit amet semper tellus gravida.
-    <BLANKLINE>
-    Lorem is good
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Pellentesque facilisis nisi vel nibh luctus sit amet semper tellus
-      gravida.
-    <BLANKLINE>
-      foo  bar
-      baz  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-           Pellentesque facilisis nisi vel nibh luctus sit amet semper
-           tellus gravida.
-    <BLANKLINE>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Pellentesque facilisis nisi vel nibh luctus sit amet semper tellus
-      gravida.
-    <BLANKLINE>
-    Lorem is life
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Pellentesque facilisis nisi vel nibh luctus sit amet semper tellus
-      gravida.
-    <BLANKLINE>
-      Lorem always
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Pellentesque facilisis nisi vel nibh luctus sit amet semper tellus
-        gravida.
+                    Oh, and next term has no definition.
+    term 3
+    longest term  The longest term decides on which column definitions
+                  start.
+    very very very very long term
+                  Except that this term is so long that we couldn't put
+                  it's definition on the same line. So we didn't shrink
+                  other terms' definitions.
 """
 
 import textwrap
@@ -112,17 +168,20 @@ class Container:
     def __init__(self):
         self.__contents = []
 
-    def add(self, content):
+    # @todo Maybe use @variadic
+    def add(self, *contents):
         """
-        Append content to this object.
+        Append contents to this object.
 
-        :param content: :class:`Paragraph` or :class:`Section` or :class:`DefinitionList` or ``None``.
+        :param contents: one or several :class:`Paragraph` or string (a :class:`Paragraph` will be created for you) or :class:`Section` or :class:`DefinitionList` or ``None``.
 
         :return: self to allow chaining.
         """
-        # @todo Accept one string. Make a paragraph with it.
-        if content is not None:
-            self.__contents.append(content)
+        for content in contents:
+            if isinstance(content, basestring):
+                content = Paragraph(content)
+            if content is not None:
+                self.__contents.append(content)
         return self
 
     def _formatContents(self, prefixLength):
@@ -154,23 +213,29 @@ class Section(Container):
         self.__title = title
 
     def _format(self, prefixLength):
-        # @todo Add options to document, in particular one adding ":" after section titles and one adding ":" after terms in definition lists
-        # @todo Add option to underline section titles
-        # @todo Add option to leave blank line after section title
         return itertools.chain(_wrap(self.__title, prefixLength), self._formatContents(prefixLength + 2))
 
 
 class Paragraph:
     """
     A paragraph in a document.
+
+    :param text: one or more strings.
     """
 
-    def __init__(self, text):
-        # @todo Accept several strings
-        self.__text = text
+    def __init__(self, *text):
+        self.__text = " ".join(text)
 
     def _format(self, prefixLength):
         return _wrap(self.__text, prefixLength)
+
+
+class Empty:
+    def _format(self, prefixLength):
+        return ""
+
+
+EMPTY = Empty()
 
 
 class DefinitionList:
@@ -193,15 +258,20 @@ class DefinitionList:
     def __init__(self):
         self.__items = []
 
+    # @todo Find a way to make variadic as well
     def add(self, name, definition):
         """
         Append a new term to the list.
 
         :param name: string.
-        :param definition: :class:`Paragraph` or :class:`Section` or :class:`DefinitionList` or ``None``.
+        :param definition: :class:`Paragraph` or string (a :class:`Paragraph` will be created for you) or :class:`Section` or :class:`DefinitionList` or ``None``.
 
         :return: self to allow chaining.
         """
+        if isinstance(definition, basestring):
+            definition = Paragraph(definition)
+        if definition is None:
+            definition = EMPTY
         self.__items.append((name, definition))
         return self
 

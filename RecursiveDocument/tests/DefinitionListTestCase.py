@@ -24,8 +24,7 @@ class DefinitionListTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 Item 1  Definition 1
                 Item 2  Definition 2"""
             )
@@ -39,8 +38,7 @@ class DefinitionListTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 Item 1         Definition 1
                 Longer item 2  Definition 2"""
             )
@@ -60,8 +58,7 @@ class DefinitionListTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 Section
                   Sub-section
                     Item 1         Definition 1
@@ -78,8 +75,7 @@ class DefinitionListTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 Longer item 1  Definition 1
                 Item 2
                 Longer item 3"""
@@ -167,8 +163,7 @@ class DefinitionListTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 Section
                   Item  Para 1
 
@@ -197,8 +192,7 @@ class DefinitionListTestCase(unittest.TestCase):
         )
         self.assertEqual(
             self.doc.format(),
-            textwrap.dedent(
-                """\
+            textwrap.dedent("""\
                 Section
                   Item 1  Item A  Definition A
                           Item B  Definition B

@@ -63,8 +63,8 @@ Create a document:
 
 >>> doc = Document().add(
 ...   Section("Introduction")
-...   .add(Paragraph("This is the first paragraph of a very interesting story. It begins with this paragraph."))
-...   .add(Paragraph("After the first paragraph comes the second paragraph. As incredible as it may sound, it can go on and on and on..."))
+...     .add("This is the first paragraph of a very interesting story. It begins with this paragraph.")
+...     .add("After the first paragraph comes the second paragraph. As incredible as it may sound, it can go on and on and on...")
 ... )
 
 And print it:

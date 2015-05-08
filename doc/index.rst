@@ -13,17 +13,17 @@ Reference
 =========
 
 .. autoclass:: RecursiveDocument.Document
-   :members:
-   :inherited-members:
+    :members:
+    :inherited-members:
 
 .. autoclass:: RecursiveDocument.Section
-   :members:
-   :inherited-members:
+    :members:
+    :inherited-members:
 
 .. autoclass:: RecursiveDocument.Paragraph
-   :members:
-   :inherited-members:
+    :members:
+    :inherited-members:
 
 .. autoclass:: RecursiveDocument.DefinitionList
-   :members:
-   :inherited-members:
+    :members:
+    :inherited-members:
