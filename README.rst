@@ -1,5 +1,6 @@
 RecursiveDocument is a Python (2.7+ and 3.3+) library formating, in a console-friendly and human-readable way,
 a document specified through its structure (sections, sub-sections, paragraphs, etc.).
+It is especially well suited for printing help messages for command-line executables.
 
 It's licensed under the `MIT license <http://choosealicense.com/licenses/mit/>`__.
 It's available on the `Python package index <http://pypi.python.org/pypi/RecursiveDocument>`__,
@@ -54,10 +55,24 @@ Install from PyPI::
 
     $ pip install RecursiveDocument
 
-.. Warning, these are NOT doctests because doctests aren't displayed on GitHub.
+Import:
 
-Import::
+>>> from RecursiveDocument import *
 
-    >>> from RecursiveDocument import *
+Create a document:
 
-@todoc Quick start
+>>> doc = Document().add(
+...   Section("Introduction")
+...   .add(Paragraph("This is the first paragraph of a very interesting story. It begins with this paragraph."))
+...   .add(Paragraph("After the first paragraph comes the second paragraph. As incredible as it may sound, it can go on and on and on..."))
+... )
+
+And print it:
+
+>>> print doc.format()
+Introduction
+  This is the first paragraph of a very interesting story. It begins
+  with this paragraph.
+<BLANKLINE>
+  After the first paragraph comes the second paragraph. As incredible
+  as it may sound, it can go on and on and on...

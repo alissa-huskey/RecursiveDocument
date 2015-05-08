@@ -3,23 +3,20 @@
 # Copyright 2013-2015 Vincent Jacques <vincent@vincent-jacques.net>
 
 """
-RecursiveDocument formats, in a console-friendly and human-readable way, a document specified through its structure (sections, sub-sections, paragraphs, etc.).
+Import:
 
-It is especially well suited for printing help messages for command-line executables.
+    >>> from RecursiveDocument import Document, Section, Paragraph, DefinitionList
 
-For example::
+Create a simple document and format it:
 
-    from RecursiveDocument import Document, Section, Paragraph
-
-    doc = Document()
-    section = Section("Section title")
-    doc.add(section)
-    section.add(Paragraph("Some text"))
-    print doc.format()
-
-will produce::
-
-    Section title:
+    >>> doc = Document()
+    >>> section = Section("Section title")
+    >>> doc.add(section)
+    <RecursiveDocument.Document ...>
+    >>> section.add(Paragraph("Some text"))
+    <RecursiveDocument.Section ...>
+    >>> print doc.format()
+    Section title
       Some text
 
 Sections and sub-sections are indented by 2 spaces to improve readability.
@@ -28,20 +25,66 @@ When the contents of the document are large, they are wrapped to 70 caracters.
 
 Because ``add`` returns ``self``, RecursiveDocument allows chaining of calls to ``add``::
 
-    from RecursiveDocument import Document, Section, Paragraph
-
-    print Document().add(
-        Section("Section title")
-        .add(Paragraph("Some text"))
-        .add(Paragraph("Some other text"))
-    ).format()
-
-will produce::
-
-    Section title:
+    >>> print Document().add(
+    ...   Section("Section title")
+    ...   .add(Paragraph("Some text"))
+    ...   .add(Paragraph("Some other text"))
+    ... ).format()
+    Section title
       Some text
 
       Some other text
+
+Here is a more complex example:
+
+    >>> lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque facilisis nisi vel nibh luctus sit amet semper tellus gravida."
+
+    >>> doc = (Document()
+    ...   .add(Paragraph(lorem))
+    ...   .add(Paragraph(lorem))
+    ...   .add(Section("Lorem is good")
+    ...     .add(Paragraph(lorem))
+    ...     .add(DefinitionList()
+    ...       .add("foo", Paragraph("bar"))
+    ...       .add("baz", Paragraph(lorem))
+    ...     )
+    ...     .add(Paragraph(lorem))
+    ...   )
+    ...   .add(Section("Lorem is life")
+    ...     .add(Paragraph(lorem))
+    ...     .add(Section("Lorem always").add(Paragraph(lorem)))
+    ...   )
+    ... )
+    >>> print doc.format()
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+    facilisis nisi vel nibh luctus sit amet semper tellus gravida.
+    <BLANKLINE>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+    facilisis nisi vel nibh luctus sit amet semper tellus gravida.
+    <BLANKLINE>
+    Lorem is good
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Pellentesque facilisis nisi vel nibh luctus sit amet semper tellus
+      gravida.
+    <BLANKLINE>
+      foo  bar
+      baz  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+           Pellentesque facilisis nisi vel nibh luctus sit amet semper
+           tellus gravida.
+    <BLANKLINE>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Pellentesque facilisis nisi vel nibh luctus sit amet semper tellus
+      gravida.
+    <BLANKLINE>
+    Lorem is life
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Pellentesque facilisis nisi vel nibh luctus sit amet semper tellus
+      gravida.
+    <BLANKLINE>
+      Lorem always
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Pellentesque facilisis nisi vel nibh luctus sit amet semper tellus
+        gravida.
 """
 
 import textwrap
@@ -71,10 +114,13 @@ class Container:
 
     def add(self, content):
         """
-        Appends content to this object. ``content`` can be ``None``, or any class from :mod:`RecursiveDocument` but :class:`Document`.
+        Append content to this object.
 
-        Returns self to allow chaining.
+        :param content: :class:`Paragraph` or :class:`Section` or :class:`DefinitionList` or ``None``.
+
+        :return: self to allow chaining.
         """
+        # @todo Accept one string. Make a paragraph with it.
         if content is not None:
             self.__contents.append(content)
         return self
@@ -93,9 +139,9 @@ class Document(Container):
 
     def format(self):
         """
-        Formats the document and returns the generated string.
+        Format the document and return the generated string.
         """
-        return "\n".join(self._formatContents(0)) + "\n"
+        return "\n".join(self._formatContents(0))
 
 
 class Section(Container):
@@ -108,7 +154,10 @@ class Section(Container):
         self.__title = title
 
     def _format(self, prefixLength):
-        return itertools.chain(_wrap(self.__title + ":", prefixLength), self._formatContents(prefixLength + 2))
+        # @todo Add options to document, in particular one adding ":" after section titles and one adding ":" after terms in definition lists
+        # @todo Add option to underline section titles
+        # @todo Add option to leave blank line after section title
+        return itertools.chain(_wrap(self.__title, prefixLength), self._formatContents(prefixLength + 2))
 
 
 class Paragraph:
@@ -117,6 +166,7 @@ class Paragraph:
     """
 
     def __init__(self, text):
+        # @todo Accept several strings
         self.__text = text
 
     def _format(self, prefixLength):
@@ -127,25 +177,15 @@ class DefinitionList:
     """
     A list of terms with their definitions.
 
-    Example::
-
-        from RecursiveDocument import Document, Section, DefinitionList
-
-        doc = Document()
-        section = Section("Section title")
-        doc.add(section)
-        section.add(
-            DefinitionList()
-            .add("Item", Paragraph("Definition 1"))
-            .add("Other item", Paragraph("Definition 2"))
-        )
-        print doc.format()
-
-    will produce::
-
-        Section title:
-          Item        Definition 1
-          Other item  Definition 2
+    >>> print Document().add(Section("Section title")
+    ...   .add(DefinitionList()
+    ...     .add("Item", Paragraph("Definition 1"))
+    ...     .add("Other item", Paragraph("Definition 2"))
+    ...   )
+    ... ).format()
+    Section title
+      Item        Definition 1
+      Other item  Definition 2
     """
 
     __maxDefinitionPrefixLength = 24
@@ -155,9 +195,12 @@ class DefinitionList:
 
     def add(self, name, definition):
         """
-        Appends a new term to the list.
+        Append a new term to the list.
 
-        Return self to allow chaining.
+        :param name: string.
+        :param definition: :class:`Paragraph` or :class:`Section` or :class:`DefinitionList` or ``None``.
+
+        :return: self to allow chaining.
         """
         self.__items.append((name, definition))
         return self
@@ -188,7 +231,6 @@ class DefinitionList:
         prefixedName, definition, shortEnough = item
         subsequentIndent = definitionPrefixLength * " "
 
-        # nameMustBeOnItsOwnLine = len(definition) == 0 or not shortEnough
         nameMustBeOnItsOwnLine = not shortEnough
 
         if nameMustBeOnItsOwnLine:

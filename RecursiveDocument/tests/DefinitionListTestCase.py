@@ -5,7 +5,7 @@
 import unittest
 import textwrap
 
-from RecursiveDocument import Document, Section, DefinitionList, Paragraph, Container
+from .. import Document, Section, DefinitionList, Paragraph, Container
 
 
 class DefinitionListTestCase(unittest.TestCase):
@@ -16,7 +16,7 @@ class DefinitionListTestCase(unittest.TestCase):
         self.maxDiff = None
         self.doc = Document()
 
-    def testDefinitionList(self):
+    def test_definition_list(self):
         self.doc.add(
             DefinitionList()
             .add("Item 1", Paragraph("Definition 1"))
@@ -27,12 +27,11 @@ class DefinitionListTestCase(unittest.TestCase):
             textwrap.dedent(
                 """\
                 Item 1  Definition 1
-                Item 2  Definition 2
-                """
+                Item 2  Definition 2"""
             )
         )
 
-    def testItemsWithDifferentLengths(self):
+    def test_items_with_different_lengths(self):
         self.doc.add(
             DefinitionList()
             .add("Item 1", Paragraph("Definition 1"))
@@ -43,12 +42,11 @@ class DefinitionListTestCase(unittest.TestCase):
             textwrap.dedent(
                 """\
                 Item 1         Definition 1
-                Longer item 2  Definition 2
-                """
+                Longer item 2  Definition 2"""
             )
         )
 
-    def testWithinSubSection(self):
+    def test_within_sub_section(self):
         self.doc.add(
             Section("Section")
             .add(
@@ -64,15 +62,14 @@ class DefinitionListTestCase(unittest.TestCase):
             self.doc.format(),
             textwrap.dedent(
                 """\
-                Section:
-                  Sub-section:
+                Section
+                  Sub-section
                     Item 1         Definition 1
-                    Longer item 2  Definition 2
-                """
+                    Longer item 2  Definition 2"""
             )
         )
 
-    def testEmptyDefinition(self):
+    def test_empty_definition(self):
         self.doc.add(
             DefinitionList()
             .add("Longer item 1", Paragraph("Definition 1"))
@@ -85,12 +82,11 @@ class DefinitionListTestCase(unittest.TestCase):
                 """\
                 Longer item 1  Definition 1
                 Item 2
-                Longer item 3
-                """
+                Longer item 3"""
             )
         )
 
-    def testWrappingOfDefinitionWithOnlyShortItems(self):
+    def test_wrapping_of_definition_with_only_short_items(self):
         self.doc.add(
             Section("Section")
             .add(
@@ -104,18 +100,17 @@ class DefinitionListTestCase(unittest.TestCase):
             textwrap.dedent(
                 # 70 chars ###########################################################
                 """\
-                Section:
+                Section
                   Item 1 (short enought)  Definition 1 Lorem ipsum dolor sit amet,
                                           consectetur adipiscing elit. Pellentesque
                                           facilisis nisi vel nibh
                   Item 2                  Definition 2 Lorem ipsum dolor sit amet,
                                           consectetur adipiscing elit. Pellentesque
-                                          facilisis nisi vel nibh
-                """
+                                          facilisis nisi vel nibh"""
             )
         )
 
-    def testWrappingOfDefinitionWithShortAndLongItems(self):
+    def test_wrapping_of_definition_with_short_and_long_items(self):
         self.doc.add(
             Section("Section")
             .add(
@@ -129,17 +124,16 @@ class DefinitionListTestCase(unittest.TestCase):
             textwrap.dedent(
                 # 70 chars ###########################################################
                 """\
-                Section:
+                Section
                   Item 1 (just tooo long)
                           Definition 1 Lorem ipsum dolor sit amet, consectetur
                           adipiscing elit. Pellentesque facilisis nisi vel nibh
                   Item 2  Definition 2 Lorem ipsum dolor sit amet, consectetur
-                          adipiscing elit. Pellentesque facilisis nisi vel nibh
-                """
+                          adipiscing elit. Pellentesque facilisis nisi vel nibh"""
             )
         )
 
-    def testWrappingOfDefinitionWithOnlyLongItems(self):
+    def test_wrapping_of_definition_with_only_long_items(self):
         self.doc.add(
             Section("Section")
             .add(
@@ -153,18 +147,17 @@ class DefinitionListTestCase(unittest.TestCase):
             textwrap.dedent(
                 # 70 chars ###########################################################
                 """\
-                Section:
+                Section
                   Item 1 (just tooo long)
                     Definition 1 Lorem ipsum dolor sit amet, consectetur adipiscing
                     elit. Pellentesque facilisis nisi vel nibh
                   Item 2 (also too long, really)
                     Definition 2 Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit. Pellentesque facilisis nisi vel nibh
-                """
+                    elit. Pellentesque facilisis nisi vel nibh"""
             )
         )
 
-    def testContainerAsDefinition(self):
+    def test_container_as_definition(self):
         self.doc.add(
             Section("Section")
             .add(
@@ -176,15 +169,14 @@ class DefinitionListTestCase(unittest.TestCase):
             self.doc.format(),
             textwrap.dedent(
                 """\
-                Section:
+                Section
                   Item  Para 1
 
-                        Para 2
-                """
+                        Para 2"""
             )
         )
 
-    def testDefinitionListAsDefinition(self):
+    def test_definition_list_as_definition(self):
         self.doc.add(
             Section("Section")
             .add(
@@ -207,11 +199,10 @@ class DefinitionListTestCase(unittest.TestCase):
             self.doc.format(),
             textwrap.dedent(
                 """\
-                Section:
+                Section
                   Item 1  Item A  Definition A
                           Item B  Definition B
                   Item 2  Item C  Definition C
-                          Item D  Definition D
-                """
+                          Item D  Definition D"""
             )
         )

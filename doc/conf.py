@@ -3,7 +3,7 @@
 # Copyright 2012-2015 Vincent Jacques <vincent@vincent-jacques.net>
 
 master_doc = "index"
-project = "RecursiveDocument"
+project = "Recursive\nDocument"
 author = '<a href="http://vincent-jacques.net/contact">Vincent Jacques</a>'
 copyright = "2015 {}".format(author)
 extensions = []

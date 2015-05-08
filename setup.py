@@ -5,7 +5,7 @@
 
 import setuptools
 
-version = "0.4.0"
+version = "0.5.0"
 
 
 setuptools.setup(
@@ -14,7 +14,7 @@ setuptools.setup(
     description="Format, in a console-friendly and human-readable way, a document specified through its structure",
     author="Vincent Jacques",
     author_email="vincent@vincent-jacques.net",
-    url="http://pythonhosted.org/RecursiveDocument",
+    url="http://pythonhosted.org/RecursiveDocument/",
     packages=setuptools.find_packages(),
     license="MIT",
     classifiers=[
@@ -33,7 +33,7 @@ setuptools.setup(
         "Topic :: Software Development :: Documentation",
         "Environment :: Console",
     ],
-    test_suite="RecursiveDocument.tests.AllTests",
+    test_suite="RecursiveDocument.tests",
     use_2to3=True,
     command_options={
         "build_sphinx": {

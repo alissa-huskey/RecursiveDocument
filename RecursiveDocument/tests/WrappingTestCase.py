@@ -5,7 +5,7 @@
 import unittest
 import textwrap
 
-from RecursiveDocument import Document, Section, Paragraph
+from .. import Document, Section, Paragraph
 
 
 class WrappingTestCase(unittest.TestCase):
@@ -17,7 +17,7 @@ class WrappingTestCase(unittest.TestCase):
         self.maxDiff = None
         self.doc = Document()
 
-    def testSingleParagraph(self):
+    def test_single_paragraph(self):
         self.doc.add(Paragraph(self.__lorem))
         self.assertEqual(
             self.doc.format(),
@@ -36,20 +36,19 @@ class WrappingTestCase(unittest.TestCase):
                 congue a tincidunt ut, cursus in risus. Ut sapien sapien, scelerisque
                 at hendrerit sed, vestibulum a sem. Sed vitae odio vel est aliquam
                 suscipit ut gravida quam. Morbi a faucibus ipsum. In eros orci,
-                feugiat et scelerisque non, faucibus et eros.
-                """
+                feugiat et scelerisque non, faucibus et eros."""
             )
         )
 
-    def testParagraphInSubSection(self):
+    def test_paragraph_in_sub_section(self):
         self.doc.add(Section("Section").add(Section("Sub-section").add(Paragraph(self.__lorem))))
         self.assertEqual(
             self.doc.format(),
             textwrap.dedent(
                 # 70 chars ###########################################################
                 """\
-                Section:
-                  Sub-section:
+                Section
+                  Sub-section
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Pellentesque facilisis nisi vel nibh luctus sit amet semper tellus
                     gravida. Proin lorem libero, aliquet vitae suscipit ac, egestas
@@ -63,12 +62,11 @@ class WrappingTestCase(unittest.TestCase):
                     sapien sapien, scelerisque at hendrerit sed, vestibulum a sem. Sed
                     vitae odio vel est aliquam suscipit ut gravida quam. Morbi a
                     faucibus ipsum. In eros orci, feugiat et scelerisque non, faucibus
-                    et eros.
-                """
+                    et eros."""
             )
         )
 
-    def testLongSectionTitles(self):
+    def test_long_section_titles(self):
         self.doc.add(
             Section("Section " + self.__shortLorem)
             .add(
@@ -82,10 +80,9 @@ class WrappingTestCase(unittest.TestCase):
                 # 70 chars ###########################################################
                 """\
                 Section Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Pellentesque facilisis nisi vel nibh:
+                Pellentesque facilisis nisi vel nibh
                   Sub-section Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Pellentesque facilisis nisi vel nibh:
-                    Some text
-                """
+                  Pellentesque facilisis nisi vel nibh
+                    Some text"""
             )
         )

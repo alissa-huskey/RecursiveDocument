@@ -5,7 +5,7 @@
 import unittest
 import textwrap
 
-from RecursiveDocument import Document, Section, Paragraph, Container
+from .. import Document, Section, Paragraph, Container
 
 
 class IndentationTestCase(unittest.TestCase):
@@ -13,14 +13,14 @@ class IndentationTestCase(unittest.TestCase):
         unittest.TestCase.setUp(self)
         self.doc = Document()
 
-    def testEmptyDocument(self):
-        self.assertEqual(self.doc.format(), "\n")
+    def test_empty_document(self):
+        self.assertEqual(self.doc.format(), "")
 
-    def testAddNoneIsNoOp(self):
+    def test_add_none_is_no_op(self):
         self.doc.add(None)
-        self.assertEqual(self.doc.format(), "\n")
+        self.assertEqual(self.doc.format(), "")
 
-    def testOneSectionWithOneParagraph(self):
+    def test_one_section_with_one_paragraph(self):
         self.doc.add(
             Section("First section")
             .add(Paragraph("Some text"))
@@ -29,13 +29,12 @@ class IndentationTestCase(unittest.TestCase):
             self.doc.format(),
             textwrap.dedent(
                 """\
-                First section:
-                  Some text
-                """
+                First section
+                  Some text"""
             )
         )
 
-    def testOneSectionWithTwoParagraphs(self):
+    def test_one_section_with_two_paragraphs(self):
         self.doc.add(
             Section("First section")
             .add(Paragraph("Some text"))
@@ -45,15 +44,14 @@ class IndentationTestCase(unittest.TestCase):
             self.doc.format(),
             textwrap.dedent(
                 """\
-                First section:
+                First section
                   Some text
 
-                  Some other text
-                """
+                  Some other text"""
             )
         )
 
-    def testSeveralSectionsWithSeveralParagraphs(self):
+    def test_several_sections_with_several_paragraphs(self):
         self.doc.add(
             Section("Section A")
             .add(Paragraph("Text A.1"))
@@ -74,31 +72,30 @@ class IndentationTestCase(unittest.TestCase):
             self.doc.format(),
             textwrap.dedent(
                 """\
-                Section A:
+                Section A
                   Text A.1
 
                   Text A.2
 
                   Text A.3
 
-                Section B:
+                Section B
                   Text B.1
 
                   Text B.2
 
                   Text B.3
 
-                Section C:
+                Section C
                   Text C.1
 
                   Text C.2
 
-                  Text C.3
-                """
+                  Text C.3"""
             )
         )
 
-    def testParagraphThenSection(self):
+    def test_paragraph_then_section(self):
         self.doc.add(
             Paragraph("Some text")
         ).add(
@@ -111,13 +108,12 @@ class IndentationTestCase(unittest.TestCase):
                 """\
                 Some text
 
-                Section title:
-                  Section text
-                """
+                Section title
+                  Section text"""
             )
         )
 
-    def testSectionThenParagraph(self):
+    def test_section_then_paragraph(self):
         self.doc.add(
             Section("Section title")
             .add(Paragraph("Section text"))
@@ -128,15 +124,14 @@ class IndentationTestCase(unittest.TestCase):
             self.doc.format(),
             textwrap.dedent(
                 """\
-                Section title:
+                Section title
                   Section text
 
-                Some text
-                """
+                Some text"""
             )
         )
 
-    def testEmptySection(self):
+    def test_empty_section(self):
         self.doc.add(
             Section("Empty section title")
         ).add(
@@ -146,14 +141,13 @@ class IndentationTestCase(unittest.TestCase):
             self.doc.format(),
             textwrap.dedent(
                 """\
-                Empty section title:
+                Empty section title
 
-                Some text
-                """
+                Some text"""
             )
         )
 
-    def testImbricatedSections(self):
+    def test_imbricated_sections(self):
         self.doc.add(
             Section("Section A")
             .add(Section("Section A.1").add(Paragraph("Text A.1.a")).add(Paragraph("Text A.1.b")))
@@ -167,32 +161,31 @@ class IndentationTestCase(unittest.TestCase):
             self.doc.format(),
             textwrap.dedent(
                 """\
-                Section A:
-                  Section A.1:
+                Section A
+                  Section A.1
                     Text A.1.a
 
                     Text A.1.b
 
-                  Section A.2:
+                  Section A.2
                     Text A.2.a
 
                     Text A.2.b
 
-                Section B:
-                  Section B.1:
+                Section B
+                  Section B.1
                     Text B.1.a
 
                     Text B.1.b
 
-                  Section B.2:
+                  Section B.2
                     Text B.2.a
 
-                    Text B.2.b
-                """
+                    Text B.2.b"""
             )
         )
 
-    def testRecursiveContainersIsSameAsFlatContainer(self):
+    def test_recursive_containers_issame_as_flat_container(self):
         self.doc.add(
             Container()
             .add(Paragraph("P1"))
@@ -228,27 +221,25 @@ class IndentationTestCase(unittest.TestCase):
 
                 P6
 
-                P7
-                """
+                P7"""
             )
         )
 
-    def testEmptyContainer(self):
+    def test_empty_container(self):
         self.doc.add(Container())
-        self.assertEqual(self.doc.format(), "\n")
+        self.assertEqual(self.doc.format(), "")
 
-    def testEmptySection2(self):
+    def test_empty_section_2(self):
         self.doc.add(Section("Title"))
         self.assertEqual(
             self.doc.format(),
             textwrap.dedent(
                 """\
-                Title:
-                """
+                Title"""
             )
         )
 
-    def testRecursiveEmptyContainers(self):
+    def test_recursive_empty_containers(self):
         self.doc.add(
             Container().add(
                 Container().add(
@@ -258,9 +249,9 @@ class IndentationTestCase(unittest.TestCase):
                 )
             )
         )
-        self.assertEqual(self.doc.format(), "\n")
+        self.assertEqual(self.doc.format(), "")
 
-    def testSuccessiveEmptyContainers(self):
+    def test_successive_empty_containers(self):
         self.doc.add(
             Container()
         ).add(
@@ -272,9 +263,9 @@ class IndentationTestCase(unittest.TestCase):
         ).add(
             Container()
         )
-        self.assertEqual(self.doc.format(), "\n")
+        self.assertEqual(self.doc.format(), "")
 
-    def testEmptyContainersAfterParagraph(self):
+    def test_empty_containers_after_paragraph(self):
         self.doc.add(
             Paragraph("Foobar")
         ).add(
@@ -282,9 +273,9 @@ class IndentationTestCase(unittest.TestCase):
         ).add(
             Container()
         )
-        self.assertEqual(self.doc.format(), "Foobar\n")
+        self.assertEqual(self.doc.format(), "Foobar")
 
-    def testEmptyContainersBeforeParagraph(self):
+    def test_empty_containers_before_paragraph(self):
         self.doc.add(
             Container()
         ).add(
@@ -292,4 +283,4 @@ class IndentationTestCase(unittest.TestCase):
         ).add(
             Paragraph("Foobar")
         )
-        self.assertEqual(self.doc.format(), "Foobar\n")
+        self.assertEqual(self.doc.format(), "Foobar")
