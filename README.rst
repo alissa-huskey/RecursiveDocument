@@ -30,10 +30,10 @@ Questions? Remarks? Bugs? Want to contribute? `Open an issue <https://github.com
 .. image:: https://img.shields.io/pypi/v/RecursiveDocument.svg
     :target: https://pypi.python.org/pypi/RecursiveDocument
 
-.. image:: https://pypip.in/py_versions/RecursiveDocument/badge.svg
+.. image:: https://img.shields.io/pypi/pyversions/RecursiveDocument/badge.svg
     :target: https://pypi.python.org/pypi/RecursiveDocument
 
-.. image:: https://pypip.in/status/RecursiveDocument/badge.svg
+.. image:: https://img.shields.io/pypi/status/RecursiveDocument/badge.svg
     :target: https://pypi.python.org/pypi/RecursiveDocument
 
 .. image:: https://img.shields.io/github/issues/jacquev6/RecursiveDocument.svg
