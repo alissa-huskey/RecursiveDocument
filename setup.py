@@ -5,20 +5,21 @@
 
 import setuptools
 
-version = "0.5.1"
+version = "0.5.2"
 
 
 setuptools.setup(
     name="RecursiveDocument",
     version=version,
     description="Format, in a console-friendly and human-readable way, a document specified through its structure",
+    long_description=open("README.rst").read(),
     author="Vincent Jacques",
     author_email="vincent@vincent-jacques.net",
     url="http://pythonhosted.org/RecursiveDocument/",
     packages=setuptools.find_packages(),
     license="MIT",
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 7 - Inactive",
         "License :: OSI Approved",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",

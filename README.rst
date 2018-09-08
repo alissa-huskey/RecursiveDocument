@@ -1,3 +1,7 @@
+**DO NOT USE THIS LIBRARY**: it was written to support `InteractiveCommandLine <https://github.com/jacquev6/InteractiveCommandLine>`_,
+and the `click <http://click.pocoo.org/>`_ library is vastly better.
+I will not fix anything in this library and I'm migrating my own projects to ``click``.
+
 RecursiveDocument is a Python (2.7+ and 3.3+) library formating, in a console-friendly and human-readable way,
 a document specified through its structure (sections, sub-sections, paragraphs, etc.).
 It is especially well suited for printing help messages for command-line executables.
@@ -6,8 +10,6 @@ It's licensed under the `MIT license <http://choosealicense.com/licenses/mit/>`_
 It's available on the `Python package index <http://pypi.python.org/pypi/RecursiveDocument>`__,
 its `documentation is hosted by Python <http://pythonhosted.org/RecursiveDocument>`__
 and its source code is on `GitHub <https://github.com/jacquev6/RecursiveDocument>`__.
-
-Questions? Remarks? Bugs? Want to contribute? `Open an issue <https://github.com/jacquev6/RecursiveDocument/issues>`__!
 
 .. image:: https://img.shields.io/travis/jacquev6/RecursiveDocument/master.svg
     :target: https://travis-ci.org/jacquev6/RecursiveDocument
