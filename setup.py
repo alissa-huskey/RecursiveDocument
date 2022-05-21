@@ -35,7 +35,6 @@ setuptools.setup(
         "Environment :: Console",
     ],
     test_suite="RecursiveDocument.tests",
-    use_2to3=True,
     command_options={
         "build_sphinx": {
             "version": ("setup.py", version),
