@@ -147,6 +147,13 @@ import textwrap
 import itertools
 
 
+# python 2-3 compatability
+try:
+    basestring
+except NameError:
+    basestring = str
+
+
 def _wrap(text, prefixLength):
     indent = prefixLength * " "
     return textwrap.wrap(text, initial_indent=indent, subsequent_indent=indent)
